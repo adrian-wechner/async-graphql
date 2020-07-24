@@ -129,11 +129,12 @@ impl Responder for GQLResponseStream {
         match self.0 {
             StreamResponse::Single(resp) => GQLResponse(resp).respond_to(req),
             StreamResponse::Stream(stream) => {
-                let body =
-                    BodyStream::new(multipart_stream(stream).map(Result::<_, Infallible>::Ok));
-                let mut res = HttpResponse::build(StatusCode::OK);
-                res.content_type("multipart/mixed; boundary=\"-\"");
-                futures::future::ok(res.body(body))
+                // let body =
+                //     BodyStream::new(multipart_stream(stream).map(Result::<_, Infallible>::Ok));
+                // let mut res = HttpResponse::build(StatusCode::OK);
+                // res.content_type("multipart/mixed; boundary=\"-\"");
+                // futures::future::ok(res.body(body))
+                futures::future::ok(HttpResponse::Ok().finish()) // TEMP TO GET IT COMPILING
             }
         }
     }
